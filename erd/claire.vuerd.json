@@ -3,8 +3,8 @@
     "version": "2.2.11",
     "width": 10000,
     "height": 10000,
-    "scrollTop": -520,
-    "scrollLeft": -742,
+    "scrollTop": -721,
+    "scrollLeft": -1018,
     "zoomLevel": 0.9,
     "show": {
       "tableComment": true,
@@ -19,12 +19,12 @@
     },
     "database": "PostgreSQL",
     "databaseName": "",
-    "canvasType": "@vuerd/builtin-sql-ddl",
+    "canvasType": "ERD",
     "language": "TypeScript",
     "tableCase": "pascalCase",
     "columnCase": "camelCase",
     "highlightTheme": "AtomOneDark",
-    "bracketType": "doubleQuote",
+    "bracketType": "none",
     "setting": {
       "relationshipDataTypeSync": true,
       "relationshipOptimization": false,
@@ -51,7 +51,7 @@
           {
             "name": "id",
             "comment": "유저ID",
-            "dataType": "serial4",
+            "dataType": "bigint",
             "default": "",
             "option": {
               "autoIncrement": true,
@@ -191,7 +191,7 @@
           "active": false,
           "left": 322.3333,
           "top": 166.7775,
-          "zIndex": 192,
+          "zIndex": 11,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FFEB3B"
@@ -206,7 +206,7 @@
           {
             "name": "id",
             "comment": "프로필ID",
-            "dataType": "serial4",
+            "dataType": "bigint",
             "default": "",
             "option": {
               "autoIncrement": true,
@@ -229,7 +229,7 @@
           {
             "name": "user_id",
             "comment": "유저ID",
-            "dataType": "serial4",
+            "dataType": "bigint",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -298,7 +298,7 @@
           {
             "name": "image_id",
             "comment": "이미지파일ID",
-            "dataType": "serial4",
+            "dataType": "bigint",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -323,7 +323,7 @@
           "active": false,
           "left": 319,
           "top": 477,
-          "zIndex": 194,
+          "zIndex": 14,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FFEB3B"
@@ -338,7 +338,7 @@
           {
             "name": "id",
             "comment": "파일ID",
-            "dataType": "serial4",
+            "dataType": "bigint",
             "default": "",
             "option": {
               "autoIncrement": true,
@@ -405,7 +405,7 @@
             "id": "3d1506f1-0e16-4742-b439-58027aaa135c"
           },
           {
-            "name": "extention",
+            "name": "extension",
             "comment": "파일확장자",
             "dataType": "varchar",
             "default": "",
@@ -475,10 +475,10 @@
           }
         ],
         "ui": {
-          "active": false,
+          "active": true,
           "left": 865,
           "top": 626,
-          "zIndex": 198,
+          "zIndex": 25,
           "widthName": 60,
           "widthComment": 60,
           "color": "#03A9F4"
@@ -493,7 +493,7 @@
           {
             "name": "id",
             "comment": "피드ID",
-            "dataType": "serial4",
+            "dataType": "bigint",
             "default": "",
             "option": {
               "autoIncrement": true,
@@ -516,7 +516,7 @@
           {
             "name": "user_id",
             "comment": "유저ID",
-            "dataType": "serial4",
+            "dataType": "bigint",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -633,7 +633,7 @@
           "active": false,
           "left": 1632,
           "top": 153,
-          "zIndex": 200,
+          "zIndex": 21,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FF9800"
@@ -648,7 +648,7 @@
           {
             "name": "feed_id",
             "comment": "피드ID",
-            "dataType": "serial4",
+            "dataType": "bigint",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -671,7 +671,7 @@
           {
             "name": "file_id",
             "comment": "파일ID",
-            "dataType": "serial4",
+            "dataType": "bigint",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -696,7 +696,7 @@
           "active": false,
           "left": 1140,
           "top": 492,
-          "zIndex": 157,
+          "zIndex": 1,
           "widthName": 60,
           "widthComment": 73.83796691894531,
           "color": "#FF9800"
@@ -711,7 +711,7 @@
           {
             "name": "feed_id",
             "comment": "피드ID",
-            "dataType": "serial4",
+            "dataType": "bigint",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -734,7 +734,7 @@
           {
             "name": "user_id",
             "comment": "유저ID",
-            "dataType": "serial4",
+            "dataType": "bigint",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -782,7 +782,7 @@
           "active": false,
           "left": 1024.7778,
           "top": 151.333,
-          "zIndex": 188,
+          "zIndex": 2,
           "widthName": 80.55888366699219,
           "widthComment": 60,
           "color": "#FF9800"

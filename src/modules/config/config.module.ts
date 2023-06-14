@@ -8,7 +8,7 @@ import ConfigService from './config.service';
     NextConfigModule.forRoot({
       isGlobal: true,
       cache: true,
-      envFilePath: ['.env'],
+      envFilePath: ['.env', '.env.tunnel'],
       expandVariables: true,
     }),
   ],

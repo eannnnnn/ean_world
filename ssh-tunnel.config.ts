@@ -1,5 +1,11 @@
 import { createServer } from 'net';
 import { createTunnel } from 'tunnel-ssh';
+import { config } from 'dotenv';
+import { writeFileSync } from 'fs';
+
+config({
+  path: '.env',
+});
 
 function getAvailablePort(startPort: number): Promise<number> {
   return new Promise((resolve, reject) => {
@@ -31,7 +37,7 @@ type TunnelConfig = {
   };
 };
 
-export async function sshTunnel({
+async function sshTunnel({
   host,
   port,
   ssh: sshConfig,
@@ -40,7 +46,7 @@ export async function sshTunnel({
 
   const [server] = await createTunnel(
     {
-      autoClose: true,
+      autoClose: false,
     },
     {
       port: availablePort,
@@ -56,6 +62,25 @@ export async function sshTunnel({
 
   if (!server.listening) throw new Error('SSH Tunnel failed to start');
 
-  console.info(`SSH Tunnel started on port ${availablePort}`);
+  server.on('connection', (stream) => {
+    stream.once('close', () => {
+      console.log(`SSH Tunnel disconnected ${stream.remotePort}`);
+    });
+    console.log(`SSH Tunnel connected ${stream.remotePort}`);
+  });
+
   return availablePort;
 }
+
+sshTunnel({
+  host: process.env.DB_ENDPOINT,
+  port: parseInt(process.env.DB_PORT),
+  ssh: {
+    username: process.env.SSH_USERNAME,
+    password: process.env.SSH_PASSWORD,
+    host: process.env.SSH_HOST,
+    port: parseInt(process.env.SSH_PORT),
+  },
+}).then((port) => {
+  writeFileSync('.env.tunnel', `SSH_TUNNEL_PORT=${port}`, 'utf-8');
+});
