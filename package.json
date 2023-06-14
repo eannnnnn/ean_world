@@ -22,6 +22,8 @@
     "db:pull": "drizzle-kit introspect:pg --config ./drizzle.config.ts && eslint --fix drizzle/schema.ts"
   },
   "dependencies": {
+    "@fastify/helmet": "^10.1.1",
+    "@fastify/static": "^6.10.2",
     "@nestjs/common": "^9.4.3",
     "@nestjs/config": "^2.3.3",
     "@nestjs/core": "^9.4.3",

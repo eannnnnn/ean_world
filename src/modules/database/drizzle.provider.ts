@@ -5,9 +5,10 @@ import { Pool } from 'pg';
 import { sql } from 'drizzle-orm';
 import { drizzle as drizzle_dev } from 'drizzle-orm/node-postgres';
 import ConfigService from '../config/config.service';
+import DrizzleService from './drizzle.service';
 
 export default {
-  provide: 'DRIZZLE_ORM',
+  provide: DrizzleService,
   inject: [ConfigService],
   async useFactory(configService: ConfigService) {
     const port = parseInt(configService.get('DB_PORT'));
