@@ -4,6 +4,8 @@ import { ConfigService as NestConfigService } from '@nestjs/config';
 type EnvConfig = {
   // APP
   APP_PORT: string;
+  SALT_ROUNDS: string;
+  JWT_SECRET: string;
   // DEV
   SSH_TUNNEL_PORT: string;
 
