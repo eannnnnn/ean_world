@@ -63,7 +63,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           source: 'dist/*,.env,package.json,pnpm-lock.yaml'
           target: ${{ secrets.SSH_TARGET }}
-          overwrite: true
 
       - name: Running
         uses: appleboy/ssh-action@v0.1.10
