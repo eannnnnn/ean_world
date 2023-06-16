@@ -14,6 +14,8 @@ import ErrorResponseDTO from './errors/error-response.dto';
 import { AppModule } from './modules/app.module';
 import ConfigService from './modules/config/config.service';
 
+let isDisableKeepAlive = false;
+
 /** Swagger Open API Documents */
 function openApiDocument(app: INestApplication) {
   const config = new DocumentBuilder()
@@ -59,7 +61,17 @@ async function bootstrap() {
 
   openApiDocument(app);
   const port = app.get(ConfigService).get('APP_PORT');
-  await app.listen(port || 3000, '0.0.0.0');
+  await app.listen(port || 3000, '0.0.0.0', (err) => {
+    if (err) throw err;
+
+    process.send?.('ready');
+  });
+
+  process.on('SIGINT', async () => {
+    isDisableKeepAlive = true;
+    await app.close();
+    process.exit(0);
+  });
 }
 
 bootstrap();

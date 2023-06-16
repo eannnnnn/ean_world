@@ -39,14 +39,14 @@ jobs:
 
       - name: Make ENV
         run: |
-          echo ${{ secrets.APP_PORT }} > .env
-          echo ${{ secrets.SALT_ROUNDS }} >> .env
-          echo ${{ secrets.JWT_SECRET }} >> .env
-          echo ${{ secrets.DB_PORT }} >> .env
-          echo ${{ secrets.DB_ENDPOINT }} >> .env
-          echo ${{ secrets.DB_USERNAME }} >> .env
-          echo ${{ secrets.DB_PASSWORD }} >> .env
-          echo ${{ secrets.DB_DATABASE_NAME }} >> .env
+          echo APP_PORT="${{ secrets.APP_PORT }}" > .env
+          echo SALT_ROUNDS="${{ secrets.SALT_ROUNDS }}" >> .env
+          echo JWT_SECRET="${{ secrets.JWT_SECRET }}" >> .env
+          echo DB_PORT="${{ secrets.DB_PORT }}" >> .env
+          echo DB_ENDPOINT="${{ secrets.DB_ENDPOINT }}" >> .env
+          echo DB_USERNAME="${{ secrets.DB_USERNAME }}" >> .env
+          echo DB_PASSWORD="${{ secrets.DB_PASSWORD }}" >> .env
+          echo DB_DATABASE_NAME="${{ secrets.DB_DATABASE_NAME }}" >> .env
 
       - name: Install dependencies
         run: pnpm install --frozen-lock
@@ -63,6 +63,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           source: 'dist/*,.env,package.json,pnpm-lock.yaml'
           target: ${{ secrets.SSH_TARGET }}
+          overwrite: true
 
       - name: Running
         uses: appleboy/ssh-action@v0.1.10
@@ -71,4 +72,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
-          script: whoami
+          script: |
+            pnpm install --frozen-lock
+            pm2 reload ecosystem.config.js
