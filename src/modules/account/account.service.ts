@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { eq, sql } from 'drizzle-orm';
+import { JwtService } from '@nestjs/jwt';
+import { compare, genSalt, hash } from 'bcrypt';
+import { eq } from 'drizzle-orm';
+import BadRequestException from 'src/errors/bad-request.exception';
+import { ErrorCode } from 'src/errors/error.const';
+import ConfigService from '../config/config.service';
 import DrizzleService from '../database/drizzle.service';
 import { account, profile } from '../database/schemas/schema';
 import CreateAccountDTO from './dtos/create-account.dto';
-import BadRequestException from 'src/errors/bad-request.exception';
-import { ErrorCode } from 'src/errors/error.const';
-import { compare, genSalt, hash } from 'bcrypt';
-import ConfigService from '../config/config.service';
-import { JwtService } from '@nestjs/jwt';
 import SignInAccountDTO from './dtos/sign-in-account.dto';
 @Injectable()
 export default class AccountService {
