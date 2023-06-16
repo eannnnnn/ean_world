@@ -1,0 +1,74 @@
+name: EAN-WORLD-API
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.6
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Make ENV
+        run: |
+          echo ${{ secrets.APP_PORT }} > .env
+          echo ${{ secrets.SALT_ROUNDS }} >> .env
+          echo ${{ secrets.JWT_SECRET }} >> .env
+          echo ${{ secrets.DB_PORT }} >> .env
+          echo ${{ secrets.DB_ENDPOINT }} >> .env
+          echo ${{ secrets.DB_USERNAME }} >> .env
+          echo ${{ secrets.DB_PASSWORD }} >> .env
+          echo ${{ secrets.DB_DATABASE_NAME }} >> .env
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lock
+
+      - name: Build
+        run: pnpm build
+
+      - name: Deploy
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          source: 'dist/*,.env,package.json,pnpm-lock.yaml'
+          target: ${{ secrets.SSH_TARGET }}
+
+      - name: Running
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: whoami
