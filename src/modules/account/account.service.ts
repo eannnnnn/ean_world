@@ -26,6 +26,7 @@ export default class AccountService {
       .select({
         userId: account.userId,
         name: profile.name,
+        uuid: account.uuid,
         createdAt: account.createdAt,
         updatedAt: account.updatedAt,
       })

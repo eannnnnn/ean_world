@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 10000,
     "height": 10000,
-    "scrollTop": -605,
-    "scrollLeft": -562,
-    "zoomLevel": 0.9,
+    "scrollTop": -1035,
+    "scrollLeft": -1803,
+    "zoomLevel": 0.8,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -191,7 +191,7 @@
           "active": false,
           "left": 322.3333,
           "top": 166.7775,
-          "zIndex": 25,
+          "zIndex": 6,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FFEB3B"
@@ -346,7 +346,7 @@
           "active": false,
           "left": 319,
           "top": 477,
-          "zIndex": 46,
+          "zIndex": 4,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FFEB3B"
@@ -524,7 +524,7 @@
           "active": false,
           "left": 865,
           "top": 626,
-          "zIndex": 38,
+          "zIndex": 3,
           "widthName": 60,
           "widthComment": 60,
           "color": "#03A9F4"
@@ -679,7 +679,7 @@
           "active": false,
           "left": 1632,
           "top": 153,
-          "zIndex": 41,
+          "zIndex": 5,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FF9800"
@@ -835,6 +835,161 @@
         },
         "visible": true,
         "id": "2cc5cbf2-68e7-4fca-ac75-e2bdfe61222b"
+      },
+      {
+        "name": "feed_reply",
+        "comment": "피드_댓글",
+        "columns": [
+          {
+            "name": "id",
+            "comment": "댓글ID",
+            "dataType": "serial",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": true,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": true,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "d8f87d96-6acf-440a-ae9f-0d5d77badb31"
+          },
+          {
+            "name": "feed_id",
+            "comment": "피드ID",
+            "dataType": "serial",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "fc2691f8-8714-46f4-a636-1195bf14d7f7"
+          },
+          {
+            "name": "user_id",
+            "comment": "유저ID",
+            "dataType": "serial",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": true,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "59b1ec5c-f5d0-41b1-b45f-1da36e64ee2d"
+          },
+          {
+            "name": "contents",
+            "comment": "댓글내용",
+            "dataType": "text",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "00115045-8ef2-4a17-87f7-6cdefe29ea13"
+          },
+          {
+            "name": "created_at",
+            "comment": "생성일",
+            "dataType": "timestamp",
+            "default": "current_timestamp",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60.044921875,
+              "widthDefault": 104.16685485839844
+            },
+            "id": "45958003-8872-4848-9aac-25bf755e56af"
+          },
+          {
+            "name": "updated_at",
+            "comment": "수정일",
+            "dataType": "timestamp",
+            "default": "current_timestamp",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 62.384918212890625,
+              "widthComment": 60,
+              "widthDataType": 60.044921875,
+              "widthDefault": 104.16685485839844
+            },
+            "id": "3e95af6e-0051-4517-8406-ad8b02d4b377"
+          }
+        ],
+        "ui": {
+          "active": true,
+          "left": 1634.7775,
+          "top": 531.4712,
+          "zIndex": 9,
+          "widthName": 60,
+          "widthComment": 60,
+          "color": "#FF9800"
+        },
+        "visible": true,
+        "id": "48c15af3-26d8-4662-8f37-e692c489dc6c"
       }
     ],
     "indexes": []
@@ -958,7 +1113,7 @@
             "00b822ba-7283-40d8-a569-3df06a14a18f"
           ],
           "x": 768.941927319336,
-          "y": 310.77750000000003,
+          "y": 262.77750000000003,
           "direction": "right"
         },
         "end": {
@@ -1010,7 +1165,7 @@
             "00b822ba-7283-40d8-a569-3df06a14a18f"
           ],
           "x": 768.941927319336,
-          "y": 214.7775,
+          "y": 198.7775,
           "direction": "right"
         },
         "end": {
@@ -1025,6 +1180,58 @@
         "constraintName": "fk_account_to_feed_reactions",
         "visible": true,
         "id": "2a2d30d8-01a1-420a-8352-3a5cb60fda1f"
+      },
+      {
+        "identification": false,
+        "relationshipType": "ZeroOne",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "429f3757-e84c-4b8b-bb3b-905cf12fda4b",
+          "columnIds": [
+            "a2a42632-e13c-44ed-a4dc-1bd23115868a"
+          ],
+          "x": 1852.5973434448242,
+          "y": 345,
+          "direction": "bottom"
+        },
+        "end": {
+          "tableId": "48c15af3-26d8-4662-8f37-e692c489dc6c",
+          "columnIds": [
+            "fc2691f8-8714-46f4-a636-1195bf14d7f7"
+          ],
+          "x": 1855.0758474731444,
+          "y": 531.4712,
+          "direction": "top"
+        },
+        "constraintName": "fk_feed_to_feed_reply",
+        "visible": true,
+        "id": "98f1492d-e4d4-4df4-a145-898f66bf2976"
+      },
+      {
+        "identification": false,
+        "relationshipType": "ZeroOne",
+        "startRelationshipType": "Dash",
+        "start": {
+          "tableId": "e6a02bf1-abc0-4511-beb0-61a2f1d6a854",
+          "columnIds": [
+            "00b822ba-7283-40d8-a569-3df06a14a18f"
+          ],
+          "x": 768.941927319336,
+          "y": 326.77750000000003,
+          "direction": "right"
+        },
+        "end": {
+          "tableId": "48c15af3-26d8-4662-8f37-e692c489dc6c",
+          "columnIds": [
+            "59b1ec5c-f5d0-41b1-b45f-1da36e64ee2d"
+          ],
+          "x": 1634.7775,
+          "y": 627.4712,
+          "direction": "left"
+        },
+        "constraintName": "fk_account_to_feed_reply",
+        "visible": true,
+        "id": "9450c1c7-4af0-4ab6-a999-9b58e4001502"
       }
     ]
   }

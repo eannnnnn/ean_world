@@ -7,6 +7,7 @@ import AllExceptionFilter from 'src/filter/error.filter';
 import { APP_FILTER } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import ConfigService from './config/config.service';
+import FeedModule from './feed/feed.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import ConfigService from './config/config.service';
     }),
     HealthModule,
     AccountModule,
+    FeedModule,
   ],
   providers: [
     {

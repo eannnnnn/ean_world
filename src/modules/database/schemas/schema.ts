@@ -29,6 +29,19 @@ export const profile = pgTable(
   },
 );
 
+export const feedReply = pgTable('feed_reply', {
+  id: serial('id').primaryKey().notNull(),
+  feedId: serial('feed_id')
+    .notNull()
+    .references(() => feed.id),
+  userId: serial('user_id')
+    .notNull()
+    .references(() => account.id),
+  contents: text('contents').notNull(),
+  createdAt: timestamp('created_at', { mode: 'string' }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'string' }).defaultNow().notNull(),
+});
+
 export const file = pgTable(
   'file',
   {
@@ -72,25 +85,6 @@ export const feed = pgTable(
   },
 );
 
-export const feedReactions = pgTable('feed_reactions', {
-  feedId: serial('feed_id')
-    .notNull()
-    .references(() => feed.id),
-  userId: serial('user_id')
-    .notNull()
-    .references(() => account.id),
-  createdAt: timestamp('created_at', { mode: 'string' }).defaultNow().notNull(),
-});
-
-export const feedFiles = pgTable('feed_files', {
-  feedId: serial('feed_id')
-    .notNull()
-    .references(() => feed.id),
-  fileId: serial('file_id')
-    .notNull()
-    .references(() => file.id),
-});
-
 export const account = pgTable(
   'account',
   {
@@ -112,3 +106,22 @@ export const account = pgTable(
     };
   },
 );
+
+export const feedReactions = pgTable('feed_reactions', {
+  feedId: serial('feed_id')
+    .notNull()
+    .references(() => feed.id),
+  userId: serial('user_id')
+    .notNull()
+    .references(() => account.id),
+  createdAt: timestamp('created_at', { mode: 'string' }).defaultNow().notNull(),
+});
+
+export const feedFiles = pgTable('feed_files', {
+  feedId: serial('feed_id')
+    .notNull()
+    .references(() => feed.id),
+  fileId: serial('file_id')
+    .notNull()
+    .references(() => file.id),
+});

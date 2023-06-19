@@ -6,11 +6,13 @@ export default class ErrorResponseDTO {
     timestamp: string,
     path: string,
     errorCode: string,
+    response?: any,
   ) {
     this.statusCode = statusCode;
     this.timestamp = timestamp;
     this.path = path;
     this.errorCode = errorCode;
+    this.response = response;
   }
 
   @ApiProperty({
@@ -35,4 +37,9 @@ export default class ErrorResponseDTO {
     description: '에러 코드',
   })
   declare errorCode: string;
+
+  @ApiProperty({
+    description: '에러 응답',
+  })
+  declare response: any;
 }
