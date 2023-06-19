@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { and, desc, eq, inArray, sql } from 'drizzle-orm';
-import { account } from 'drizzle/schema';
 import DrizzleService from '../database/drizzle.service';
-import { feed, feedReply } from '../database/schemas/schema';
+import { account, feed, feedReply } from '../database/schemas/schema';
 import { CreateFeedDTO } from './dtos/create-feed.dto';
 import GetFeedsDTO from './dtos/get-feeds.dto';
 
