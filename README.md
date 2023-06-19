@@ -11,6 +11,12 @@
 # APP_PORT 서버를 실행 할 포트
 APP_PORT=3000
 
+# 비밀번호 SALT 관련
+SALT_ROUNDS=10
+
+# JWT SECRET KEY
+JWT_SECRET="jwtSecret"
+
 # Essential ENV
 
 # DB ( postgresql 을 사용 중 입니다. )

@@ -17,6 +17,25 @@ export default class AccountService {
     private readonly config: ConfigService,
   ) {}
 
+  /**
+   * 내 정보 조회
+   * @param id 유저 아이디
+   */
+  async getAccount(id: number) {
+    const [data] = await this.drizzle
+      .select({
+        userId: account.userId,
+        name: profile.name,
+        createdAt: account.createdAt,
+        updatedAt: account.updatedAt,
+      })
+      .from(account)
+      .leftJoin(profile, eq(account.id, profile.userId))
+      .where(eq(account.id, id));
+
+    return data;
+  }
+
   /** 로그인 */
   async signIn({ password, userId }: SignInAccountDTO) {
     const [data] = await this.drizzle
@@ -24,7 +43,7 @@ export default class AccountService {
       .from(account)
       .where(eq(account.userId, userId));
 
-    if (!data) throw new BadRequestException(ErrorCode.NOT_FOUND_ACCOUNT);
+    if (!data) throw new BadRequestException(ErrorCode.PASSWORD_NOT_MATCHED);
 
     const isMatched = await compare(password, data.password);
     if (!isMatched)

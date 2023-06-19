@@ -28,7 +28,7 @@ export default {
       min: 1,
     });
     const db = drizzle_dev(pool, { logger: true });
-    await db.execute(sql`SELECT 2`);
+    await db.execute(sql`SELECT 1`);
     return db;
   },
 } as Provider;
