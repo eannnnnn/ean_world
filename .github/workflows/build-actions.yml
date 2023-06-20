@@ -42,6 +42,7 @@ jobs:
           echo APP_PORT="${{ secrets.APP_PORT }}" > .env
           echo SALT_ROUNDS="${{ secrets.SALT_ROUNDS }}" >> .env
           echo JWT_SECRET="${{ secrets.JWT_SECRET }}" >> .env
+          echo FILE_SAVE_PATH="${{ secrets.FILE_SAVE_PATH }}" >> .env
           echo DB_PORT="${{ secrets.DB_PORT }}" >> .env
           echo DB_ENDPOINT="${{ secrets.DB_ENDPOINT }}" >> .env
           echo DB_USERNAME="${{ secrets.DB_USERNAME }}" >> .env
