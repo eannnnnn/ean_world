@@ -17,6 +17,8 @@ SALT_ROUNDS=10
 # JWT SECRET KEY
 JWT_SECRET="jwtSecret"
 
+# File save path
+FILE_SAVE_PATH="/"
 # Essential ENV
 
 # DB ( postgresql 을 사용 중 입니다. )

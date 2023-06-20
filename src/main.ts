@@ -13,6 +13,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import ErrorResponseDTO from './errors/error-response.dto';
 import { AppModule } from './modules/app.module';
 import ConfigService from './modules/config/config.service';
+import FastifyMultipart from '@fastify/multipart';
 
 /** Swagger Open API Documents */
 function openApiDocument(app: INestApplication) {
@@ -56,6 +57,17 @@ async function bootstrap() {
     methods: '*',
     allowedHeaders: '*',
     credentials: false,
+  });
+
+  app.register(FastifyMultipart, {
+    limits: {
+      fieldNameSize: 100, // Max field name size in bytes
+      fieldSize: 100, // Max field value size in bytes
+      fields: 10, // Max number of non-file fields
+      fileSize: 1000000, // For multipart forms, the max file size in bytes
+      files: 10, // Max number of file fields
+      headerPairs: 2000, // Max number of header key=>value pairs
+    },
   });
 
   openApiDocument(app);

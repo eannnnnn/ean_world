@@ -81,9 +81,11 @@ export default class FeedService {
 
   /** 게시물 등록 */
   async createFeed(data: CreateFeedDTO) {
-    await this.drizzle.insert(feed).values({
-      userId: data.userId,
-      contents: data.contents,
-    });
+    // await this.drizzle.insert(feed).values({
+    //   userId: data.userId,
+    //   contents: data.contents,
+    // });
+
+    return 1;
   }
 }

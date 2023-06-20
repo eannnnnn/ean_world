@@ -1,4 +1,4 @@
-import { Query } from '@nestjs/common';
+import { Query, UseInterceptors } from '@nestjs/common';
 import { AppController } from 'src/open-api/app-controller.decorator';
 import { AppJwtGuard } from 'src/open-api/app-guard.decorator';
 import { AppDelete, AppGet, AppPost } from 'src/open-api/app-method.decorator';
@@ -8,6 +8,10 @@ import GetFeedsDTO from './dtos/get-feeds.dto';
 import FeedService from './feed.service';
 import { ApiOkResponse } from 'src/open-api/api-response.decorator';
 import GetFeedResponse from './response/get-feed.response';
+import { FileInterceptor } from '../file/file.interceptor';
+import { ApiBody, ApiConsumes, ApiProperty } from '@nestjs/swagger';
+import { AppFile } from 'src/open-api/app-file.decorator';
+import { FileType } from '../file/file.const';
 
 @AppController('/feed', '피드 - 게시글')
 export default class FeedController {
@@ -23,6 +27,8 @@ export default class FeedController {
   }
 
   @AppJwtGuard
+  @AppFile('file', FileType.IMAGE, 7)
+  @ApiConsumes('multipart/form-data')
   @AppPost('/', '피드 생성 - 작업 중')
   async createFeed(@User() user: JwtUser) {
     return await this.feedService.createFeed({

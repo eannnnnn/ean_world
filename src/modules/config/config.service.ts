@@ -6,6 +6,8 @@ type EnvConfig = {
   APP_PORT: string;
   SALT_ROUNDS: string;
   JWT_SECRET: string;
+  FILE_SAVE_PATH: string;
+
   // DEV
   SSH_TUNNEL_PORT: string;
 

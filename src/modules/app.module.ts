@@ -8,6 +8,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import ConfigService from './config/config.service';
 import FeedModule from './feed/feed.module';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import FeedModule from './feed/feed.module';
         signOptions: { expiresIn: '1d' },
       }),
     }),
+    FileModule,
     HealthModule,
     AccountModule,
     FeedModule,
