@@ -1,7 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { and, desc, eq, inArray, sql } from 'drizzle-orm';
 import DrizzleService from '../database/drizzle.service';
-import { account, feed, feedReply } from '../database/schemas/schema';
+import {
+  account,
+  feed,
+  feedFiles,
+  feedReply,
+} from '../database/schemas/schema';
 import { CreateFeedDTO } from './dtos/create-feed.dto';
 import GetFeedsDTO from './dtos/get-feeds.dto';
 
@@ -81,11 +86,27 @@ export default class FeedService {
 
   /** 게시물 등록 */
   async createFeed(data: CreateFeedDTO) {
-    // await this.drizzle.insert(feed).values({
-    //   userId: data.userId,
-    //   contents: data.contents,
-    // });
+    return await this.drizzle.transaction(async (trx) => {
+      const [{ feedId, uuid }] = await trx
+        .insert(feed)
+        .values({
+          userId: data.userId,
+          contents: data.contents,
+        })
+        .returning({
+          feedId: feed.id,
+          uuid: feed.uuid,
+        });
+      await Promise.all(
+        data.files.map(async (fileId) => {
+          await trx.insert(feedFiles).values({
+            feedId,
+            fileId,
+          });
+        }),
+      );
 
-    return 1;
+      return uuid;
+    });
   }
 }

@@ -60,6 +60,9 @@ async function bootstrap() {
   });
 
   app.register(FastifyMultipart, {
+    // attachFieldsToBody: true,
+    addToBody: true,
+    logLevel: 'debug',
     limits: {
       fieldNameSize: 100, // Max field name size in bytes
       fieldSize: 100, // Max field value size in bytes

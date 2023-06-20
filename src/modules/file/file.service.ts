@@ -1,4 +1,3 @@
-import type { MultipartFile } from '@fastify/multipart';
 import { Injectable } from '@nestjs/common';
 import { mkdirSync, writeFileSync } from 'fs';
 import ConfigService from '../config/config.service';
@@ -7,6 +6,7 @@ import { file } from '../database/schemas/schema';
 import BadRequestException from 'src/errors/bad-request.exception';
 import { ErrorCode } from 'src/errors/error.const';
 import { randomUUID } from 'crypto';
+import { MultipartFile } from 'src/common/file';
 
 @Injectable()
 export default class FileService {
@@ -32,7 +32,7 @@ export default class FileService {
 
       const newName = randomUUID();
       // save file
-      writeFileSync(`${filePath}/${newName}`, await data.toBuffer());
+      writeFileSync(`${filePath}/${newName}`, data.data);
 
       const [{ fileId }] = await this.drizzle
         .insert(file)

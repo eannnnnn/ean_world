@@ -77,34 +77,51 @@ export const ApiOkResponse = <T extends Type<any>>(
 export const ApiCreatedResponse = <T extends Type<any>>(
   description: string,
   type?: T,
+  options?: {
+    isArray: boolean;
+  },
 ) =>
   applyDecorators(
     HttpCode(HttpStatus.CREATED),
     _ApiCreatedResponse({
       description,
-      type,
+      ...(type ? parseType(type, options?.isArray) : {}),
     }),
     ApiExtraModels(type ?? Boolean),
   );
 
-export const ApiBadRequestResponse = (description: string, code: ErrorCode) =>
+type BadRequestParam = {
+  code: ErrorCode;
+  summary: string;
+};
+
+export const ApiBadRequestResponse = (...errors: BadRequestParam[]) =>
   applyDecorators(
     _ApiBadRequestResponse({
-      description,
+      description: 'Bad Request',
       status: HttpStatus.BAD_REQUEST,
-      schema: {
-        allOf: [
-          { $ref: getSchemaPath(ErrorResponseDTO) },
-          {
-            properties: {
-              errorCode: {
-                type: 'enum',
-                enum: Object.values(ErrorCode),
-                example: code,
-              },
-            },
+      content: {
+        'application/json': {
+          schema: {
+            $ref: getSchemaPath(ErrorResponseDTO),
           },
-        ],
+          examples: {
+            ...Object.fromEntries(
+              errors.map(({ code, summary }) => [
+                code,
+                {
+                  summary,
+                  value: new ErrorResponseDTO(
+                    HttpStatus.BAD_REQUEST,
+                    new Date().toISOString(),
+                    '/',
+                    code,
+                  ),
+                },
+              ]),
+            ),
+          },
+        },
       },
     }),
   );

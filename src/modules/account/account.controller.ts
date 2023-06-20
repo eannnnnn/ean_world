@@ -6,13 +6,13 @@ import {
   ApiOkResponse,
 } from 'src/open-api/api-response.decorator';
 import { AppController } from 'src/open-api/app-controller.decorator';
+import { AppJwtGuard } from 'src/open-api/app-guard.decorator';
 import { AppGet, AppPost } from 'src/open-api/app-method.decorator';
+import { User } from './account.decorator';
 import AccountService from './account.service';
 import CreateAccountDTO from './dtos/create-account.dto';
-import SignInAccountDTO from './dtos/sign-in-account.dto';
-import { AppJwtGuard } from 'src/open-api/app-guard.decorator';
-import { User } from './account.decorator';
 import JwtUser from './dtos/jwt-user.dto';
+import SignInAccountDTO from './dtos/sign-in-account.dto';
 import GetAccountResponse from './response/get-account.response';
 
 @AppController('/account', 'account - 회원정보')
@@ -28,17 +28,20 @@ export default class AccountController {
 
   @AppPost('/sign-in', '로그인')
   @ApiOkResponse('로그인 성공시', String)
-  @ApiBadRequestResponse(
-    '계정이 없거나, 비밀번호가 틀린경우',
-    ErrorCode.PASSWORD_NOT_MATCHED,
-  )
+  @ApiBadRequestResponse({
+    summary: '로그인 실패시',
+    code: ErrorCode.PASSWORD_NOT_MATCHED,
+  })
   async signIn(@Body() data: SignInAccountDTO) {
     return await this.accountService.signIn(data);
   }
 
   @AppPost('/sign-up', '회원가입')
   @ApiCreatedResponse('회원가입 성공')
-  @ApiBadRequestResponse('중복된 ID가 존재하는 경우', ErrorCode.EXISTED_ACCOUNT)
+  @ApiBadRequestResponse({
+    summary: '중복된 계정이 있는 경우',
+    code: ErrorCode.EXISTED_ACCOUNT,
+  })
   async signUp(@Body() account: CreateAccountDTO) {
     return await this.accountService.signUp(account);
   }
