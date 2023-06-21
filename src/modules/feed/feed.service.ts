@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { and, desc, eq, inArray, sql } from 'drizzle-orm';
+import BadRequestException from 'src/errors/bad-request.exception';
+import { ErrorCode } from 'src/errors/error.const';
 import DrizzleService from '../database/drizzle.service';
 import {
   account,
@@ -10,6 +12,7 @@ import {
 } from '../database/schemas/schema';
 import { CreateFeedDTO } from './dtos/create-feed.dto';
 import GetFeedsDTO from './dtos/get-feeds.dto';
+import { UpdateFeedDTO } from './dtos/update-feed.dto';
 
 @Injectable()
 export default class FeedService {
@@ -124,5 +127,62 @@ export default class FeedService {
 
       return uuid;
     });
+  }
+
+  /** 게시물 수정 */
+  async updateFeed(uuid: string, data: UpdateFeedDTO) {
+    const [targetFeed] = await this.drizzle
+      .select()
+      .from(feed)
+      .where(eq(feed.uuid, uuid));
+
+    if (!targetFeed) throw new BadRequestException(ErrorCode.NOT_FOUND);
+
+    if (targetFeed.userId !== data.userId)
+      throw new BadRequestException(ErrorCode.FORBIDDEN);
+
+    await this.drizzle.transaction(async (trx) => {
+      const [{ feedId }] = await trx
+        .update(feed)
+        .set({
+          contents: data.contents,
+        })
+        .where(and(eq(feed.uuid, uuid), eq(feed.userId, data.userId)))
+        .returning({
+          feedId: feed.id,
+        });
+
+      await trx.delete(feedFiles).where(eq(feedFiles.feedId, feedId));
+
+      await Promise.all(
+        data.files.map(async (fileId) => {
+          await trx.insert(feedFiles).values({
+            feedId,
+            fileId,
+          });
+        }),
+      );
+      return uuid;
+    });
+  }
+
+  /** 게시물 삭제 */
+  async deleteFeed(uuid: string, userId: number) {
+    const [targetFeed] = await this.drizzle
+      .select()
+      .from(feed)
+      .where(eq(feed.uuid, uuid));
+
+    if (!targetFeed) throw new BadRequestException(ErrorCode.NOT_FOUND);
+
+    if (targetFeed.userId !== userId)
+      throw new BadRequestException(ErrorCode.FORBIDDEN);
+
+    await this.drizzle.transaction(async (trx) => {
+      await trx.delete(feedFiles).where(eq(feedFiles.feedId, targetFeed.id));
+      await trx.delete(feedReply).where(eq(feedReply.feedId, targetFeed.id));
+      await trx.delete(feed).where(eq(feed.id, targetFeed.id));
+    });
+    return true;
   }
 }

@@ -26,11 +26,12 @@ export default class FileService {
       .from(file)
       .where(eq(file.uuid, uuid));
 
-    if (!data) throw new BadRequestException(ErrorCode.FILE_NOT_FOUND);
+    if (!data) throw new BadRequestException(ErrorCode.NOT_FOUND);
 
     return data;
   }
 
+  /** file upload */
   async uploadFile(data: MultipartFile) {
     const today = new Date();
     const year = today.getFullYear();
@@ -60,7 +61,6 @@ export default class FileService {
 
       return fileId;
     } catch (error) {
-      console.log(error);
       throw new BadRequestException(ErrorCode.FILE_UPLOAD_FAILED);
     }
   }
