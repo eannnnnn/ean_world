@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { mkdirSync, writeFileSync } from 'fs';
+import { createReadStream, mkdirSync, writeFileSync } from 'fs';
 import ConfigService from '../config/config.service';
 import DrizzleService from '../database/drizzle.service';
 import { file } from '../database/schemas/schema';
@@ -7,6 +7,7 @@ import BadRequestException from 'src/errors/bad-request.exception';
 import { ErrorCode } from 'src/errors/error.const';
 import { randomUUID } from 'crypto';
 import { MultipartFile } from 'src/common/file';
+import { eq } from 'drizzle-orm';
 
 @Injectable()
 export default class FileService {
@@ -16,6 +17,18 @@ export default class FileService {
     private readonly drizzle: DrizzleService,
   ) {
     this.rootPath = this.config.get('FILE_SAVE_PATH');
+  }
+
+  /** file data 불러오기 uuid를 통해 */
+  async getFile(uuid: string) {
+    const [data] = await this.drizzle
+      .select()
+      .from(file)
+      .where(eq(file.uuid, uuid));
+
+    if (!data) throw new BadRequestException(ErrorCode.FILE_NOT_FOUND);
+
+    return data;
   }
 
   async uploadFile(data: MultipartFile) {
@@ -39,7 +52,7 @@ export default class FileService {
         .values({
           filePath,
           hashName: newName,
-          name: data.filename,
+          name: data.filename.normalize(),
         })
         .returning({
           fileId: file.id,

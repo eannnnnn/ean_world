@@ -28,20 +28,14 @@ export default class AccountController {
 
   @AppPost('/sign-in', '로그인')
   @ApiOkResponse('로그인 성공시', String)
-  @ApiBadRequestResponse({
-    summary: '로그인 실패시',
-    code: ErrorCode.PASSWORD_NOT_MATCHED,
-  })
+  @ApiBadRequestResponse([ErrorCode.PASSWORD_NOT_MATCHED, '로그인 실패 시'])
   async signIn(@Body() data: SignInAccountDTO) {
     return await this.accountService.signIn(data);
   }
 
   @AppPost('/sign-up', '회원가입')
   @ApiCreatedResponse('회원가입 성공')
-  @ApiBadRequestResponse({
-    summary: '중복된 계정이 있는 경우',
-    code: ErrorCode.EXISTED_ACCOUNT,
-  })
+  @ApiBadRequestResponse([ErrorCode.EXISTED_ACCOUNT, '중복된 계정이 있는 경우'])
   async signUp(@Body() account: CreateAccountDTO) {
     return await this.accountService.signUp(account);
   }

@@ -90,15 +90,16 @@ export const ApiCreatedResponse = <T extends Type<any>>(
     ApiExtraModels(type ?? Boolean),
   );
 
-type BadRequestParam = {
-  code: ErrorCode;
-  summary: string;
-};
+type BadRequestParam = [code: ErrorCode, summary: string];
 
+/**
+ * 400 에러 응답 데코레이터
+ * @param errors [에러코드: ErrorCode, 설명: string]
+ */
 export const ApiBadRequestResponse = (...errors: BadRequestParam[]) =>
   applyDecorators(
     _ApiBadRequestResponse({
-      description: 'Bad Request',
+      description: '에러 응답',
       status: HttpStatus.BAD_REQUEST,
       content: {
         'application/json': {
@@ -107,7 +108,7 @@ export const ApiBadRequestResponse = (...errors: BadRequestParam[]) =>
           },
           examples: {
             ...Object.fromEntries(
-              errors.map(({ code, summary }) => [
+              errors.map(([code, summary]) => [
                 code,
                 {
                   summary,

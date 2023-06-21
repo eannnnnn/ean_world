@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { randomUUID } from 'crypto';
 
 class Reply {
   @ApiProperty({ description: '댓글 ID' })
@@ -38,6 +39,12 @@ class Feed {
   updatedAt: string;
   @ApiProperty({ description: '댓글 목록 ( 3 개까지 )', type: [Reply] })
   replies: Reply[];
+
+  @ApiProperty({
+    description: '파일 uuid 리스트',
+    example: [randomUUID(), randomUUID()],
+  })
+  files: string[];
 }
 
 export default class GetFeedResponse {

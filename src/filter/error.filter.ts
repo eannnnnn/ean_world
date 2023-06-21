@@ -4,7 +4,6 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
-  ValidationPipe,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import ErrorResponseDTO from 'src/errors/error-response.dto';

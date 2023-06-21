@@ -6,6 +6,7 @@ import {
   feed,
   feedFiles,
   feedReply,
+  file,
 } from '../database/schemas/schema';
 import { CreateFeedDTO } from './dtos/create-feed.dto';
 import GetFeedsDTO from './dtos/get-feeds.dto';
@@ -42,7 +43,14 @@ export default class FeedService {
         contents: feed.contents,
         createdAt: feed.createdAt,
         updatedAt: feed.updatedAt,
-        replies: sql<string[]>`
+        replies: sql<
+          {
+            replyId: number;
+            contents: string;
+            createdAt: string;
+            updatedAt: string;
+          }[]
+        >`
         case
           when count(${feedReply.id}) = 0 then '[]'
         else
@@ -52,6 +60,12 @@ export default class FeedService {
             'createdAt', ${feedReply.createdAt},
             'updatedAt', ${feedReply.updatedAt}
           ))
+        end`,
+        files: sql<string[]>`
+        case
+          when count(${file.id}) = 0 then '[]'
+        else
+          json_agg(${file.uuid})
         end`,
       })
       .from(feed)
@@ -78,6 +92,8 @@ export default class FeedService {
           )`,
         ),
       )
+      .leftJoin(feedFiles, eq(feedFiles.feedId, feed.id))
+      .leftJoin(file, eq(file.id, feedFiles.fileId))
       .offset((query.page - 1) * 10)
       .limit(query.limit)
       .groupBy(feed.id, account.id)

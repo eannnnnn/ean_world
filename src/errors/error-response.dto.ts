@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ErrorCode } from './error.const';
 
 export default class ErrorResponseDTO {
   constructor(
@@ -34,6 +35,8 @@ export default class ErrorResponseDTO {
   declare path: string;
 
   @ApiProperty({
+    type: 'enum',
+    enum: ErrorCode,
     description: '에러 코드',
   })
   declare errorCode: string;

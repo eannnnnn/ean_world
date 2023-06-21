@@ -35,18 +35,9 @@ export default class FeedController {
   @AppPost('/', '게시글 생성')
   @ApiCreatedResponse('결과 - 게시글 uuid', String)
   @ApiBadRequestResponse(
-    {
-      code: ErrorCode.FILE_NOT_ALLOWED,
-      summary: '이미지 파일만 업로드 가능합니다.',
-    },
-    {
-      code: ErrorCode.FILE_UPLOAD_FAILED,
-      summary: '파일 업로드에 실패했습니다.',
-    },
-    {
-      code: ErrorCode.FILE_MAX_LENGTH_EXCEEDED,
-      summary: '파일 허용 갯수 초과 시',
-    },
+    [ErrorCode.FILE_NOT_ALLOWED, '이미지 파일만 업로드 가능합니다.'],
+    [ErrorCode.FILE_UPLOAD_FAILED, '파일 업로드에 실패했습니다.'],
+    [ErrorCode.FILE_MAX_LENGTH_EXCEEDED, '파일 허용 갯수 초과 시'],
   )
   async createFeed(@User() user: JwtUser, @Body() body: CreateFeedDTO) {
     body.userId = user.id;
